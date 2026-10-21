@@ -30,7 +30,7 @@ import (
 	"go.opentelemetry.io/ebpf-profiler/libpf"
 	"go.opentelemetry.io/ebpf-profiler/metrics"
 	"go.opentelemetry.io/ebpf-profiler/rlimit"
-	"go.opentelemetry.io/ebpf-profiler/support"
+	"go.opentelemetry.io/ebpf-profiler/support/loader"
 	"go.opentelemetry.io/ebpf-profiler/tracer"
 )
 
@@ -90,7 +90,7 @@ func forceContextSwitch() {
 
 func attachKernelFrameProbe(t *testing.T, tr *tracer.Tracer) link.Link {
 	t.Helper()
-	coll, err := support.LoadCollectionSpec()
+	coll, err := loader.LoadCollectionSpec()
 	require.NoError(t, err)
 
 	err = tracer.RewriteMaps(coll, tr.GetEbpfMaps())

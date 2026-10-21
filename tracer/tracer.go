@@ -45,6 +45,7 @@ import (
 	"go.opentelemetry.io/ebpf-profiler/reporter"
 	"go.opentelemetry.io/ebpf-profiler/rlimit"
 	"go.opentelemetry.io/ebpf-profiler/support"
+	"go.opentelemetry.io/ebpf-profiler/support/loader"
 	"go.opentelemetry.io/ebpf-profiler/times"
 	"go.opentelemetry.io/ebpf-profiler/util"
 )
@@ -458,7 +459,7 @@ func initializeMapsAndPrograms(kmod *kallsyms.Module, cfg *Config, origins *orig
 		return nil, nil, nil, fmt.Errorf("failed to get kernel version: %v", err)
 	}
 
-	coll, err := support.LoadCollectionSpec()
+	coll, err := loader.LoadCollectionSpec()
 	if err != nil {
 		return nil, nil, nil, fmt.Errorf("failed to load specification for tracers: %v", err)
 	}
@@ -1227,7 +1228,7 @@ func (t *Tracer) StartMapMonitors(ctx context.Context, traceOutChan chan<- *libp
 
 	// translateIDs is a translation table for eBPF IDs into Metric IDs.
 	// Index is the ebpfID, value is the corresponding metricID.
-	translateIDs := support.MetricsTranslation
+	translateIDs := loader.MetricsTranslation
 
 	// previousMetricValue stores the previously retrieved metric values to
 	// calculate and store delta values.
